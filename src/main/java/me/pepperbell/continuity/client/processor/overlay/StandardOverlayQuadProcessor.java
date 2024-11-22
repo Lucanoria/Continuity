@@ -126,7 +126,7 @@ public class StandardOverlayQuadProcessor extends AbstractQuadProcessor {
 		BlockState otherAppearanceState = otherState.getAppearance(blockView, mutablePos, lightFace, state, pos);
 		if (appliesOverlay(otherAppearanceState, otherState, mutablePos, blockView, appearanceState, state, pos, lightFace, quadSprite)) {
 			mutablePos.move(lightFace);
-			return !blockView.getBlockState(mutablePos).isOpaqueFullCube(blockView, mutablePos);
+			return !blockView.getBlockState(mutablePos).isOpaqueFullCube();
 		}
 		return false;
 	}
@@ -219,7 +219,7 @@ public class StandardOverlayQuadProcessor extends AbstractQuadProcessor {
 
 		mutablePos.set(pos, directions[0]).move(lightFace);
 		BlockState appearanceState0;
-		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube(blockView, mutablePos)) {
+		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube()) {
 			mutablePos.set(pos, directions[0]);
 			BlockState state0 = blockView.getBlockState(mutablePos);
 			appearanceState0 = state0.getAppearance(blockView, mutablePos, lightFace, state, pos);
@@ -232,7 +232,7 @@ public class StandardOverlayQuadProcessor extends AbstractQuadProcessor {
 
 		mutablePos.set(pos, directions[1]).move(lightFace);
 		BlockState appearanceState1;
-		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube(blockView, mutablePos)) {
+		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube()) {
 			mutablePos.set(pos, directions[1]);
 			BlockState state1 = blockView.getBlockState(mutablePos);
 			appearanceState1 = state1.getAppearance(blockView, mutablePos, lightFace, state, pos);
@@ -245,7 +245,7 @@ public class StandardOverlayQuadProcessor extends AbstractQuadProcessor {
 
 		mutablePos.set(pos, directions[2]).move(lightFace);
 		BlockState appearanceState2;
-		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube(blockView, mutablePos)) {
+		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube()) {
 			mutablePos.set(pos, directions[2]);
 			BlockState state2 = blockView.getBlockState(mutablePos);
 			appearanceState2 = state2.getAppearance(blockView, mutablePos, lightFace, state, pos);
@@ -258,7 +258,7 @@ public class StandardOverlayQuadProcessor extends AbstractQuadProcessor {
 
 		mutablePos.set(pos, directions[3]).move(lightFace);
 		BlockState appearanceState3;
-		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube(blockView, mutablePos)) {
+		if (!blockView.getBlockState(mutablePos).isOpaqueFullCube()) {
 			mutablePos.set(pos, directions[3]);
 			BlockState state3 = blockView.getBlockState(mutablePos);
 			appearanceState3 = state3.getAppearance(blockView, mutablePos, lightFace, state, pos);

@@ -6,7 +6,6 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import com.google.common.collect.ImmutableMap;
 
-import me.pepperbell.continuity.client.mixinterface.ModelLoaderExtension;
 import me.pepperbell.continuity.client.model.CtmBakedModel;
 import me.pepperbell.continuity.client.model.EmissiveBakedModel;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
@@ -15,12 +14,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.block.BlockModels;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.client.render.model.MissingModel;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 public class ModelWrappingHandler {
+	@Nullable
+	private static volatile ModelWrappingHandler instance;
+
 	private final boolean wrapCtm;
 	private final boolean wrapEmissive;
 	private final ImmutableMap<ModelIdentifier, BlockState> blockStateModelIds;
@@ -32,11 +34,19 @@ public class ModelWrappingHandler {
 	}
 
 	@Nullable
-	public static ModelWrappingHandler create(boolean wrapCtm, boolean wrapEmissive) {
+	public static ModelWrappingHandler getInstance() {
+		return instance;
+	}
+
+	public static void setInstance(boolean wrapCtm, boolean wrapEmissive) {
 		if (!wrapCtm && !wrapEmissive) {
-			return null;
+			return;
 		}
-		return new ModelWrappingHandler(wrapCtm, wrapEmissive);
+		instance = new ModelWrappingHandler(wrapCtm, wrapEmissive);
+	}
+
+	public static void resetInstance() {
+		instance = null;
 	}
 
 	private static ImmutableMap<ModelIdentifier, BlockState> createBlockStateModelIdMap() {
@@ -53,7 +63,7 @@ public class ModelWrappingHandler {
 	}
 
 	public BakedModel wrap(@Nullable BakedModel model, @UnknownNullability Identifier resourceId, @UnknownNullability ModelIdentifier topLevelId) {
-		if (model != null && !model.isBuiltin() && (resourceId == null || !resourceId.equals(ModelLoader.MISSING_ID))) {
+		if (model != null && !model.isBuiltin() && (resourceId == null || !resourceId.equals(MissingModel.ID))) {
 			if (wrapCtm) {
 				if (topLevelId != null) {
 					BlockState state = blockStateModelIds.get(topLevelId);
@@ -73,8 +83,7 @@ public class ModelWrappingHandler {
 	public static void init() {
 		ModelLoadingPlugin.register(pluginCtx -> {
 			pluginCtx.modifyModelAfterBake().register(ModelModifier.WRAP_LAST_PHASE, (model, ctx) -> {
-				ModelLoader modelLoader = ctx.loader();
-				ModelWrappingHandler wrappingHandler = ((ModelLoaderExtension) modelLoader).continuity$getModelWrappingHandler();
+				ModelWrappingHandler wrappingHandler = getInstance();
 				if (wrappingHandler != null) {
 					return wrappingHandler.wrap(model, ctx.resourceId(), ctx.topLevelId());
 				}

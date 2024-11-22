@@ -19,8 +19,6 @@ import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.EmptyBlockView;
 
 public final class CustomBlockLayers {
 	public static final Identifier LOCATION = Identifier.ofVanilla("optifine/block.properties");
@@ -42,7 +40,7 @@ public final class CustomBlockLayers {
 	@Nullable
 	public static RenderLayer getLayer(BlockState state) {
 		if (!disableSolidCheck) {
-			if (state.isOpaqueFullCube(EmptyBlockView.INSTANCE, BlockPos.ORIGIN)) {
+			if (state.isOpaqueFullCube()) {
 				return null;
 			}
 		}

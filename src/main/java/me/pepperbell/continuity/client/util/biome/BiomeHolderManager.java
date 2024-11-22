@@ -39,7 +39,7 @@ public final class BiomeHolderManager {
 		}
 
 		Map<Identifier, Identifier> compactIdMap = new Object2ObjectOpenHashMap<>();
-		Registry<Biome> biomeRegistry = registryManager.get(RegistryKeys.BIOME);
+		Registry<Biome> biomeRegistry = registryManager.getOrThrow(RegistryKeys.BIOME);
 		for (Identifier id : biomeRegistry.getIds()) {
 			String path = id.getPath();
 			String compactPath = path.replace("_", "");

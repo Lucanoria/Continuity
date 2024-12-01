@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import me.pepperbell.continuity.client.properties.BasicConnectingCtmProperties;
 import me.pepperbell.continuity.client.properties.PropertiesParsingHelper;
-import me.pepperbell.continuity.client.resource.ResourceRedirectHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourcePack;
@@ -40,7 +39,7 @@ public class StandardOverlayCtmProperties extends BasicConnectingCtmProperties i
 	}
 
 	protected void parseConnectTiles() {
-		connectTilesSet = PropertiesParsingHelper.parseMatchTiles(properties, "connectTiles", resourceId, packId, ResourceRedirectHandler.get(resourceManager));
+		connectTilesSet = PropertiesParsingHelper.parseMatchTiles(properties, "connectTiles", resourceId, packId);
 	}
 
 	protected void parseConnectBlocks() {

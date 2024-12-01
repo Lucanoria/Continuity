@@ -8,11 +8,8 @@
     "BakedModelManagerMixin",
     "BlockModelsMixin",
     "FallingBlockEntityRendererMixin",
-    "IdentifierMixin",
     "LifecycledResourceManagerImplMixin",
-    "NamespaceResourceManagerMixin",
     "PistonBlockEntityRendererMixin",
-    "ReloadableResourceManagerImplAccessor",
     "RenderLayersMixin",
     "SpriteLoaderMixin",
     "SpriteMixin"

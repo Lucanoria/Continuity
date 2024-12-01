@@ -21,7 +21,6 @@ import me.pepperbell.continuity.api.client.CtmProperties;
 import me.pepperbell.continuity.api.client.QuadProcessor;
 import me.pepperbell.continuity.client.ContinuityClient;
 import me.pepperbell.continuity.client.model.QuadProcessors;
-import me.pepperbell.continuity.client.util.BooleanState;
 import me.pepperbell.continuity.client.util.biome.BiomeHolderManager;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
@@ -58,14 +57,11 @@ public class CtmPropertiesLoader {
 	private LoadingResult loadAll() {
 		int packPriority = 0;
 		Iterator<ResourcePack> iterator = resourceManager.streamResourcePacks().iterator();
-		BooleanState invalidIdentifierState = InvalidIdentifierStateHolder.get();
-		invalidIdentifierState.enable();
 		while (iterator.hasNext()) {
 			ResourcePack pack = iterator.next();
 			loadAll(pack, packPriority);
 			packPriority++;
 		}
-		invalidIdentifierState.disable();
 
 		containers.sort(Comparator.reverseOrder());
 

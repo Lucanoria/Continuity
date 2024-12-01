@@ -135,7 +135,7 @@ public class BaseCtmProperties implements CtmProperties {
 	}
 
 	protected void parseMatchTiles() {
-		matchTilesSet = PropertiesParsingHelper.parseMatchTiles(properties, "matchTiles", resourceId, packId, ResourceRedirectHandler.get(resourceManager));
+		matchTilesSet = PropertiesParsingHelper.parseMatchTiles(properties, "matchTiles", resourceId, packId);
 		if (matchTilesSet != null && matchTilesSet.isEmpty()) {
 			valid = false;
 		}
@@ -626,7 +626,6 @@ public class BaseCtmProperties implements CtmProperties {
 	protected void resolveTiles() {
 		textureDependencies = new ObjectOpenHashSet<>();
 		spriteIds = new ObjectArrayList<>();
-		ResourceRedirectHandler redirectHandler = ResourceRedirectHandler.get(resourceManager);
 
 		for (Identifier tile : tiles) {
 			SpriteIdentifier spriteId;
@@ -635,7 +634,6 @@ public class BaseCtmProperties implements CtmProperties {
 			} else if (tile.equals(SPECIAL_DEFAULT_ID)) {
 				spriteId = SPECIAL_DEFAULT_SPRITE_ID;
 			} else {
-				String namespace = tile.getNamespace();
 				String path = tile.getPath();
 				if (path.startsWith("textures/")) {
 					path = path.substring(9);
@@ -643,12 +641,15 @@ public class BaseCtmProperties implements CtmProperties {
 						path = path.substring(0, path.length() - 4);
 					}
 
-					spriteId = TextureUtil.toSpriteId(Identifier.of(namespace, path));
+					spriteId = TextureUtil.toSpriteId(tile.withPath(path));
 					textureDependencies.add(spriteId);
-				} else if (redirectHandler != null) {
-					path = redirectHandler.getSourceSpritePath(path);
+				} else if (path.startsWith("optifine/")) {
+					path = ResourceRedirectHandler.SPRITE_PATH_START + path.substring(9);
+					if (path.endsWith(".png")) {
+						path = path.substring(0, path.length() - 4);
+					}
 
-					spriteId = TextureUtil.toSpriteId(Identifier.of(namespace, path));
+					spriteId = TextureUtil.toSpriteId(tile.withPath(path));
 					textureDependencies.add(spriteId);
 				} else {
 					spriteId = TextureUtil.MISSING_SPRITE_ID;

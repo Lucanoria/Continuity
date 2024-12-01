@@ -31,9 +31,12 @@
   ],
 
   "depends": {
-    "minecraft": ">=1.21.3",
+    "minecraft": "1.21.3",
     "fabricloader": ">=0.15.0",
     "fabric-api": ">=0.100.1"
+  },
+  "breaks": {
+    "sodium": "<0.6.0-beta.5"
   },
 
   "custom": {
